@@ -50,8 +50,8 @@
 
 	<bean id="trustStore"
 		class="org.springframework.ws.soap.security.support.KeyStoreFactoryBean">
-		<property name="location" value="/WEB-INF/jks/truststore.jks" />
-		<property name="password" value="111111" />
+		<property name="location" value="/WEB-INF/jks/firma1.jks" />
+		<property name="password" value="x" />
 	</bean>
 
 	<bean id="certificateValidationHandler"
