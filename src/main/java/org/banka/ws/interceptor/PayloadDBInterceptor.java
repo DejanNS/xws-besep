@@ -2,12 +2,22 @@ package org.banka.ws.interceptor;
 
 import java.io.ByteArrayOutputStream;
 
+import org.banka.ws.service.DBService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ws.context.MessageContext;
 import org.springframework.ws.server.EndpointInterceptor;
 
 @Service("payloadDBINterceptor")
 public class PayloadDBInterceptor implements EndpointInterceptor {
+
+	private final DBService dbService;
+
+	@Autowired
+	public PayloadDBInterceptor(DBService dbService) {
+		super();
+		this.dbService = dbService;
+	}
 
 	@Override
 	public boolean handleFault(MessageContext arg0, Object arg1)
@@ -23,8 +33,8 @@ public class PayloadDBInterceptor implements EndpointInterceptor {
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		messageContext.getRequest().writeTo(bos);
 
-		// TODO: Implement logic for saving xml to XML DB
 		System.out.println(bos.toString("UTF-8"));
+		dbService.saveRequestToDb(bos.toString("UTF-8"));
 
 		return true;
 	}
@@ -36,8 +46,8 @@ public class PayloadDBInterceptor implements EndpointInterceptor {
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		messageContext.getRequest().writeTo(bos);
 
-		// TODO: Implement logic for saving xml to XML DB
 		System.out.println(bos.toString("UTF-8"));
+		dbService.saveRequestToDb(bos.toString("UTF-8"));
 
 		return true;
 	}
