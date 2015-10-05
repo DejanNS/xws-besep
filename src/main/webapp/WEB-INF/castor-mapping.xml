@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapping>
+	<class name="org.banka.ws.oxm.NalogZaPlacanjeRequest">
+		<map-to xml="nalogZaPlacanjeRequest" ns-uri="http://ws.banka.org/ws/schema/nalogZaPlacanje" />
+
+		<field name="ID" type="string">
+			<bind-xml name="ID" node="element" />
+		</field>
+
+		<field name="duznik" type="string">
+			<bind-xml name="duznik" node="element" />
+		</field>
+
+		<field name="svrhaPlacanja" type="string">
+			<bind-xml name="svrhaPlacanja" node="element" />
+		</field>
+
+		<field name="primalac" type="string">
+			<bind-xml name="primalac" node="element" />
+		</field>
+
+		<field name="datumNaloga" type="string"
+			handler="org.banka.ws.commons.DateHandler">
+			<bind-xml name="datumNaloga" node="element" />
+		</field>
+
+		<field name="datumValute" type="string"
+			handler="org.banka.ws.commons.DateHandler">
+			<bind-xml name="datumValute" node="element" />
+		</field>
+
+		<field name="racunDuznika" type="string">
+			<bind-xml name="racunDuznika" node="element" />
+		</field>
+
+		<field name="modelZaduzenja" type="integer">
+			<bind-xml name="modelZaduzenja" node="element" />
+		</field>
+
+		<field name="pozivNaBrojZaduzenja" type="string">
+			<bind-xml name="pozivNaBrojZaduzenja" node="element" />
+		</field>
+
+		<field name="racunPoverioca" type="string">
+			<bind-xml name="racunPoverioca" node="element" />
+		</field>
+
+		<field name="modelOdobrenja" type="integer">
+			<bind-xml name="modelOdobrenja" node="element" />
+		</field>
+
+		<field name="pozivNaBrojOdobrenja" type="string">
+			<bind-xml name="pozivNaBrojOdobrenja" node="element" />
+		</field>
+
+		<field name="iznos" type="double">
+			<bind-xml name="iznos" node="element" />
+		</field>
+
+		<field name="oznakaValute" type="string">
+			<bind-xml name="oznakaValute" node="element" />
+		</field>
+
+		<field name="hitno" type="boolean">
+			<bind-xml name="hitno" node="element" />
+		</field>
+
+	</class>
+
+	<class name="org.banka.ws.oxm.NalogZaPlacanjeResponse">
+		<map-to xml="nalogZaPlacanjeResponse" ns-uri="http://ws.banka.org/ws/schema/nalogZaPlacanje" />
+
+		<field name="status" type="string">
+			<bind-xml name="status" node="element" />
+		</field>
+
+		<field name="opis" type="string">
+			<bind-xml name="opis" node="element" />
+		</field>
+
+	</class>
+
+	<class name="org.banka.ws.oxm.ProveraStanjaRequest">
+		<map-to xml="proveraStanjaRequest" ns-uri="http://ws.banka.org/ws/schema/proveraStanja" />
+
+		<field name="brojRacuna" type="string">
+			<bind-xml name="brojRacuna" node="element" />
+		</field>
+	</class>
+
+	<class name="org.banka.ws.oxm.ProveraStanjaResponse">
+		<map-to xml="proveraStanjaResponse" ns-uri="http://ws.banka.org/ws/schema/proveraStanja" />
+
+		<field name="brojRacuna" type="string">
+			<bind-xml name="brojRacuna" node="element" />
+		</field>
+
+		<field name="naziv" type="string">
+			<bind-xml name="naziv" node="element" />
+		</field>
+
+		<field name="status" type="string">
+			<bind-xml name="status" node="element" />
+		</field>
+
+		<field name="trenutnoStanje" type="double">
+			<bind-xml name="trenutnoStanje" node="element" />
+		</field>
+
+		<field name="rezervisanaSredstva" type="double">
+			<bind-xml name="rezervisanaSredstva" node="element" />
+		</field>
+	</class>
+
+</mapping>

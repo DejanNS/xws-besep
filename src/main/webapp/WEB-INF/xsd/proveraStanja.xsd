@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" 
+	elementFormDefault="qualified"
+	attributeFormDefault="qualified"
+	targetNamespace="http://ws.banka.org/ws/schema/proveraStanja"
+    xmlns:ps="http://ws.banka.org/ws/schema/proveraStanja" >
+    
+    <element name="brojRacuna" ps:maxOccurs="1" ps:minOccurs="1">
+		<simpleType>
+			<restriction base="string">
+				<pattern value="([0-9+\-]+)" />
+				<minLength value="1" />
+				<maxLength value="18" />
+				<whiteSpace value="preserve" />
+			</restriction>
+		</simpleType>
+	</element>
+	
+	<element name="naziv" ps:maxOccurs="1" ps:minOccurs="1">
+		<simpleType>
+			<restriction base="string">
+				<pattern value="([A-Z]|[a-z]|\s|\.)+" />
+				<minLength value="1" />
+				<maxLength value="255" />
+				<whiteSpace value="preserve" />
+			</restriction>
+		</simpleType>
+	</element>
+	
+	<element name="status" ps:maxOccurs="1" ps:minOccurs="1">
+        <simpleType>
+            <restriction base="string">
+                 <enumeration value="AKTIVAN"/>
+      			 <enumeration value="BLOKIRAN"/>
+            </restriction>
+        </simpleType>
+    </element>
+    
+    <element name="trenutnoStanje">
+		<simpleType>
+			<restriction base="double">
+				<pattern value="([0-9]+\.+[0-9]{2})"/>
+				<minInclusive value="1"/>
+				<whiteSpace value="collapse"/>
+			</restriction>
+		</simpleType>
+	</element>
+	
+	<element name="rezervisanaSredstva">
+		<simpleType>
+			<restriction base="double">
+				<pattern value="([0-9]+\.+[0-9]{2})"/>
+				<minInclusive value="1"/>
+				<whiteSpace value="collapse"/>
+			</restriction>
+		</simpleType>
+	</element>
+	
+	<element name="proveraStanjaRequest" ps:maxOccurs="1" ps:minOccurs="1">
+		<complexType>
+			<sequence>
+				<element ref="ps:brojRacuna" />
+			</sequence>
+		</complexType>
+	</element>
+	
+	<element name="proveraStanjaResponse" ps:maxOccurs="1" ps:minOccurs="1">
+		<complexType>
+			<sequence>
+				<element ref="ps:brojRacuna" />
+				<element ref="ps:naziv" />
+				<element ref="ps:status" />
+				<element ref="ps:trenutnoStanje" />
+				<element ref="ps:rezervisanaSredstva" />
+			</sequence>
+		</complexType>
+	</element>
+    
+</schema>

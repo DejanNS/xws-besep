@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:sws="http://www.springframework.org/schema/web-services"
+	xmlns:oxm="http://www.springframework.org/schema/oxm"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       				http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+       	 			http://www.springframework.org/schema/web-services
+       				http://www.springframework.org/schema/web-services/web-services-2.0.xsd
+       				http://www.springframework.org/schema/oxm 
+       				http://www.springframework.org/schema/oxm/spring-oxm-1.5.xsd
+       				http://www.springframework.org/schema/security 
+       				http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+	<sws:annotation-driven />
+
+	<sws:interceptors>
+		<bean id="payloadDBINterceptor" class="org.banka.ws.interceptor.PayloadDBInterceptor" />
+	
+		<bean id="wsValidatingInterceptor"
+			class="org.springframework.ws.soap.server.endpoint.interceptor.PayloadValidatingInterceptor"
+			p:validateRequest="true" p:validateResponse="true">
+
+			<property name="schemas">
+				<list>
+					<value>/WEB-INF/xsd/*.xsd</value>
+				</list>
+			</property>
+		</bean>
+
+		<bean id="loggingInterceptor"
+			class="org.springframework.ws.server.endpoint.interceptor.PayloadLoggingInterceptor" />
+
+		<bean id="wsSecurityInterceptor"
+			class="org.springframework.ws.soap.security.xwss.XwsSecurityInterceptor">
+			<property name="policyConfiguration" value="/WEB-INF/securityPolicy.xml" />
+			<property name="callbackHandlers">
+				<list>
+					<ref bean="keyStoreHandler" />
+					<ref bean="certificateValidationHandler" />
+				</list>
+			</property>
+		</bean>
+	</sws:interceptors>
+
+	<bean id="keyStoreHandler"
+		class="org.springframework.ws.soap.security.xwss.callback.KeyStoreCallbackHandler">
+		<property name="trustStore" ref="trustStore" />
+	</bean>
+
+	<bean id="trustStore"
+		class="org.springframework.ws.soap.security.support.KeyStoreFactoryBean">
+		<property name="location" value="/WEB-INF/jks/truststore.jks" />
+		<property name="password" value="111111" />
+	</bean>
+
+	<bean id="certificateValidationHandler"
+		class="org.springframework.ws.soap.security.xwss.callback.SpringCertificateValidationCallbackHandler">
+		<property name="authenticationManager">
+			<bean class="org.banka.ws.security.SimpleAuthenticationManager" />
+		</property>
+	</bean>
+
+	<sws:dynamic-wsdl id="nalogZaPlacanje" portTypeName="NalogZaPlacanjePort"
+		locationUri="/ws" targetNamespace="http://ws.banka.org/ws/schema/nalogZaPlacanje">
+		<sws:xsd location="/WEB-INF/xsd/nalogZaPlacanje.xsd" />
+	</sws:dynamic-wsdl>
+
+	<sws:dynamic-wsdl id="proveraStanja" portTypeName="ProveraStanjaPort"
+		locationUri="/ws" targetNamespace="http://ws.banka.org/ws/schema/proveraStanja">
+		<sws:xsd location="/WEB-INF/xsd/proveraStanja.xsd" />
+	</sws:dynamic-wsdl>
+
+	<bean id="castorMarshaller" class="org.springframework.oxm.castor.CastorMarshaller"
+		p:mappingLocation="/WEB-INF/castor-mapping.xml" />
+
+	<bean id="marshallingPayloadMethodProcessor"
+		class="org.springframework.ws.server.endpoint.adapter.method.MarshallingPayloadMethodProcessor">
+		<constructor-arg ref="castorMarshaller" />
+		<constructor-arg ref="castorMarshaller" />
+	</bean>
+
+	<bean id="defaultMethodEndpointAdapter"
+		class="org.springframework.ws.server.endpoint.adapter.DefaultMethodEndpointAdapter">
+		<property name="methodArgumentResolvers">
+			<list>
+				<ref bean="marshallingPayloadMethodProcessor" />
+			</list>
+		</property>
+		<property name="methodReturnValueHandlers">
+			<list>
+				<ref bean="marshallingPayloadMethodProcessor" />
+			</list>
+		</property>
+	</bean>
+</beans>
